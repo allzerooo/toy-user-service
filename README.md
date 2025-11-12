@@ -12,7 +12,7 @@
 
 # 3. 분산 상황 설정
 ## 3.1 IntelliJ
-Run Configuration -> Edit Configurations -> Spring Boot 서비스 선택 -> Copy Configuration -> Name 변경 -> Modify Options -> Add VM options -> VM option 입력 : -Dserver.port=60001
+Run Configuration → Edit Configurations → Spring Boot 서비스 선택 → Copy Configuration → Name 변경 → Modify Options → Add VM options → VM option 입력 : -Dserver.port=60001
 ## 3.2 Terminal
 ### 3.2.1 Gradle
 ### 3.2.2 Java
@@ -20,6 +20,26 @@ Run Configuration -> Edit Configurations -> Spring Boot 서비스 선택 -> Copy
 java -jar build/libs/user-service-0.0.1-SNAPSHOT.jar --server.port=60001
 ```
 ** 60000 포트와 60001 포트에 서비스를 실행하면 Eureka 대시보드에 2개의 user-service가 등록된 것을 확인할 수 있다
+## 3.3 Random Port
+서비스가 추가될 때마다 수동으로 포트를 부여하는 방법은 확장성이 떨어질 수 있다. Spring Bootd에서 서버 포트를 0으로 설정하면 Random Port를 사용할 수 있다. 
+```yaml
+server:
+  port: 0
+```
+
+```bash
+# 서버 실행 시 아래 로그를 확인할 수 있다
+Updating port to 64858
+```
+- 몇 개의 서비스를 실행하든 Eureka 대시보드에서는 0번 포트로 보여진다 → Eureka 서버에 등록할 때 인스턴스 아이디 값을 고유하게 부여함으로써 랜덤 포트라 할지라도 다른 이름으로 등록되게 할 수 있다
+
+## 3.4 Instance Id
+```yaml
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+```
+
 
 # 4. Load Balancer
 ## 4.1 Scale Out
