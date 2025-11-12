@@ -19,6 +19,11 @@ Run Configuration -> Edit Configurations -> Spring Boot 서비스 선택 -> Copy
 ```bash
 java -jar build/libs/user-service-0.0.1-SNAPSHOT.jar --server.port=60001
 ```
- 
 ** 60000 포트와 60001 포트에 서비스를 실행하면 Eureka 대시보드에 2개의 user-service가 등록된 것을 확인할 수 있다
+
+# 4. Load Balancer
+## 4.1 Scale Out
+클라이언트의 네트워크 트래픽이 증가하면 User Service 개수를 늘린다(확장성).
+## 4.2 부하 분산 처리
+이때 클라이언트가 어떤 User Service를 사용할 지 결정하는 것이 아니라, User Service들 앞단에서 어떤 User Service를 사용할 지 핸들링할 수 있는 Load Balancer라는 것을 둔다.
 
